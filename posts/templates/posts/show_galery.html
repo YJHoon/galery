@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>제목 : {{ galery.title }}</h2>
+    
+    <!--{% if galery.user == user %}-->
+    <!--<a href="{% url 'posts:update_galery' galery.id %}">수정</a><br>-->
+    
+    <!--<form action="{% url 'posts:delete_galery' galery.id %}" method="POST">-->
+    <!--    {% csrf_token %}-->
+    <!--    <input type="submit" value="삭제">-->
+    <!--</form>-->
+
+    <!--{% endif %}-->
+    <br>
+    <h2>글</h2>
+    <a href="{% url 'posts:new' galery.id %}">글 남기기</a>
+
+
+    <p>----------------------------------------------------------------------------</p>
+    {% for post in galery.posts.all %}
+    <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="galery_id">
+        <!--name에는 . 안들어가는게 조음 넵-->
+        <a href="{% url 'posts:show' post.id %}"><p>{{ forloop.counter }} : {{ post.title }}</p></a>
+        <p>{{ post.content }}</p>
+    </form>
+    
+    {% endfor %}
+    <p>----------------------------------------------------------------------------</p>
+{% endblock %}

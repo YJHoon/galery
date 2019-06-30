@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<body class="vsc-initialized">
+
+<h1>Sign Up</h1>
+
+<p>Already have an account? Then please <a href="/accounts/login/">sign in</a>.</p>
+
+<form class="signup" id="signup_form" method="post" action="/accounts/signup/">
+    <input type="hidden" name="csrfmiddlewaretoken" value="aMY9mZlpPUBKOmxMrATiqdmsdlALERNCz2UlXth4Ql2OVQWDGRPDW9TcJt5tI9lL">
+    <p><label for="id_username">Username:</label> <input type="text" name="username" minlength="1" required="" autofocus="autofocus" maxlength="150" id="id_username" placeholder="Username"></p>
+    <p><label for="id_email">E-mail (optional):</label> <input type="email" name="email" id="id_email" placeholder="E-mail address"></p>
+    <p><label for="id_password1">Password:</label> <input type="password" name="password1" required="" id="id_password1" placeholder="Password"></p>
+    <p><label for="id_password2">Password (again):</label> <input type="password" name="password2" required="" id="id_password2" placeholder="Password (again)"></p>
+    
+    <button type="submit">Sign Up »</button>
+    {% csrf_token %}
+</form>
+
+</body>
+{% endblock %}

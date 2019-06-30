@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block abc %}
+    
+{% endblock %}
+
+{% block content %}
+
+    {% if user.is_authenticated %}
+        <!--<a href="{% url 'posts:new_galery' %}">주제 정하기</a>-->
+        <p><br></p>
+        <h1>NEWS</h1>
+        <p>===============================</p>
+        {% for galery in galery %}
+            <a href="{% url 'posts:show_galery' galery.id %}"><h2>{{ forloop.counter }} : {{ galery.title }}</h2></a>
+            <p>===============================</p>
+            {% empty %}
+            <p>글이 없습니다.</p>
+        {% endfor %}
+        
+        {% else %}
+        <p>로그인이 안되어 있습니다.</p>
+        <a href="{% url 'account_login' %}">login</a>
+    {% endif %}
+    
+{% endblock %}

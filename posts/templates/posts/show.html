@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    
+    <div>
+        
+        <h2>제목 : {{ post.title }}</h2>
+        <p>내용 : {{ post.content }}</p>
+        <p>쓰니 : {{ post.user }}</p>
+        
+        {% if post.user == user %}
+            <a href="{% url 'posts:update' post.id %}">수정</a><br>
+            <form action="{% url 'posts:delete' post.id %}" method="POST">
+                {% csrf_token %}
+                <input type="submit" value="삭제">
+            </form>
+        {% endif %}
+        <br><br>
+        <form action="{% url 'posts:like' post.id %}" method="POST">
+            {% csrf_token %}
+            <input type="submit" value="좋아요">
+        </form>
+        <br>
+        {{ post.like.count }}개<br>
+        좋아요 누른 사람<br>
+        {% for user in post.like.all %}
+            {{ user.username }}&nbsp
+            {% empty %}
+            없음
+        {% endfor %}
+    </div>
+    
+    <br><br><br>
+    <div>
+        <h2>댓글</h2>
+        <p>댓글 수 : {{ post.comments.count }}개</p> <!-- related_name을 써서 가능한 부분 -->
+        <a href="{% url 'posts:new_comment' post.id %}">댓글 남기기</a> <!-- url 클릭 시 post.id를 함께 넘겨줌 -->
+        
+        <p>----------------------------------------------------------------------------</p>
+        
+        {% for comment in post.comments.all %}
+            <p>쓰니 : {{ comment.user }}</p>
+            <p>내용 : {{ comment.content }}</p>
+            {% if comment.user == user %}
+            <form action="{% url 'posts:delete_comment' comment.id %}" method="POST">
+            {% csrf_token %}
+            <input type="submit" value="댓글삭제">
+            {% endif %}
+            
+            <!--<form action="{% url 'posts:like_comment' comment.id %}" method="POST">-->
+            <!--    {% csrf_token %}-->
+            <!--    <input type="submit" value="좋아요">-->
+            <!--</form>-->
+            <!--{{ comment.like.count }}개<br>-->
+        
+            <!--좋아요 누른 사람-->
+            <!--{% for user in comment.like.all %}-->
+            <!--{{ user.username }}-->
+            <!--{% empty %}-->
+            <!--없음-->
+            <!--{% endfor %}-->
+        <p>----------------------------------------------------------------------------</p>
+            {% empty %}
+            <p>댓글이 없습니다.</p>
+        </form>
+        {% endfor %}
+    </div>
+    
+{% endblock %}
